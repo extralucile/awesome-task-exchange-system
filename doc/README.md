@@ -3,7 +3,20 @@
 
 ###Распишем требования на составляющие:
 
+----
+#### Actor: Popug (any role)
 
+----
+#### Command: Login task dashboard
+
+----
+#### Data: ???
+
+----
+#### Event: Popug was logined
+
+----
+----
 ----
 #### Actor: Popug (any role)
 
@@ -61,86 +74,97 @@
 ----
 ----
 ----
-#### Actor:
+#### Actor: Popug (any role)
 
 ----
-#### Command:
+#### Command: Login analytics dashboard
 
 ----
-#### Data:
+#### Data: ???
 
 ----
-#### Event:
-
-----
-----
-----
-#### Actor:
-
-----
-#### Command:
-
-----
-#### Data:
-
-----
-#### Event:
+#### Event: Popug was logined
 
 ----
 ----
 ----
-#### Actor:
+#### Actor: Event 'Task was created'
 
 ----
-#### Command:
+#### Command: Take task price from popug
 
 ----
-#### Data:
+#### Data: Popug.balance
 
 ----
-#### Event:
-
-----
-----
-----
-#### Actor:
-
-----
-#### Command:
-
-----
-#### Data:
-
-----
-#### Event:
+#### Event: Popug.balance was decreased
 
 ----
 ----
 ----
-#### Actor:
+#### Actor: Event 'Task.status was changed to DONE'
 
 ----
-#### Command:
+#### Command: Give money to popug
 
 ----
-#### Data:
+#### Data: Popug.balance
 
 ----
-#### Event:
-
-----
-----
-----
-#### Actor:
-
-----
-#### Command:
-
-----
-#### Data:
-
-----
-#### Event:
+#### Event: Popug.balance was increased
 
 ----
 ----
+----
+#### Actor: Event 'Task was created'
+
+----
+#### Command: Count task price
+
+----
+#### Data: Task.price
+
+----
+#### Event: Task.price was set
+
+----
+----
+----
+#### Actor: Scheduled job (?) for analytics dashboard
+
+----
+#### Command: Get the amount that was earned today ((sum(completed task amount) + sum(assigned task fee) * -1)
+
+----
+#### Data: Daily (all) popugs' income
+
+----
+#### Event: Income is counted
+
+----
+----
+----
+#### Actor: Scheduled job (?) for analytics dashboard
+
+----
+#### Command: Get the amount that was earned by particular popug
+
+----
+#### Data: Daily (one) popug's income
+
+----
+#### Event: (One) popug's income is counted
+
+----
+----
+----
+#### Actor: Event '(One) popug's income is counted'
+
+----
+#### Command: Send income info to popug
+
+----
+#### Data: Email
+
+----
+#### Event: Income info email is sent
