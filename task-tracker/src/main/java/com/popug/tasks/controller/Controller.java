@@ -1,4 +1,4 @@
-package com.popug.tasks;
+package com.popug.tasks.controller;
 
 import com.popug.tasks.dto.CreatedTask;
 import com.popug.tasks.dto.ReassignedTasks;

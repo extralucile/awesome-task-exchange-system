@@ -11,7 +11,7 @@
     <groupId>com.popug.tasks</groupId>
     <artifactId>task-tracker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <description>Demo project for Spring Boot with Kafka</description>
+    <description>task tracker</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -27,10 +27,14 @@
             <version>2.9.1</version>
         </dependency>
         <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.16.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
-            <optional>true</optional>
         </dependency>
     </dependencies>
 
