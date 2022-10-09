@@ -8,7 +8,7 @@ import com.popug.tasks.producer.CreationProducer;
 import com.popug.tasks.producer.ReassignedProducer;
 import com.popug.tasks.model.Task;
 import com.popug.tasks.model.User;
-import com.popug.tasks.repository.TaskService;
+import com.popug.tasks.repository.TaskRepository;
 import com.popug.tasks.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +30,7 @@ public class Controller {
 
     private final ReassignedProducer reassignedProducer;
 
-    private final TaskService taskService;
+    private final TaskRepository taskRepository;
 
     private final UserRepository userRepository;
 
@@ -44,12 +44,12 @@ public class Controller {
                 .collect(Collectors.toList());
         String randomUserId = userIds.get(new Random().nextInt(userIds.size()));
         task.setPublicUserId(randomUserId);
-        taskService.save(task);
         creationProducer.send(CreatedTaskMessage.builder()
                 .id(task.getId())
                 .description(task.getDescription())
                 .publicUserId(task.getPublicUserId())
                 .build());
+        taskRepository.save(task);
     }
 
     @PostMapping(value = "/reassign")
@@ -57,14 +57,15 @@ public class Controller {
         List<String> publicUserIds = StreamSupport.stream(userRepository.findAll().spliterator(), false)
                 .map(User::getPublicUserId)
                 .collect(Collectors.toList());
-        List<Task> tasks = reassignedTasks.getIds().stream()
-                .map(id -> taskService.updatePublicUserIdById(publicUserIds
-                        .get(new Random().nextInt(publicUserIds.size())), id))
-                .collect(Collectors.toList());
-        tasks.forEach(task -> reassignedProducer.send(AssignedTaskMessage.builder()
-                .id(task.getId())
-                .description(task.getDescription())
-                .publicUserId(task.getPublicUserId())
-                .build()));
+        reassignedTasks.getIds().forEach(id -> {
+                    Task task = taskRepository.findById(id).get();
+                    task.setPublicUserId(publicUserIds.get(new Random().nextInt(publicUserIds.size())));
+                    reassignedProducer.send(AssignedTaskMessage.builder()
+                            .id(task.getId())
+                            .description(task.getDescription())
+                            .publicUserId(task.getPublicUserId())
+                            .build());
+                    taskRepository.save(task);
+                });
     }
 }
