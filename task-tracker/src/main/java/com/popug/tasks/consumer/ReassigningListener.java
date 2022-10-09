@@ -14,10 +14,6 @@ public class ReassigningListener {
 
     @KafkaListener(topics = "reassign", groupId = "group_id")
     public void consume(ConsumerRecord<String, ReassignedTasks> payload){
-        log.info("key: {}", payload.key());
-        log.info("Headers: {}", payload.headers());
-        log.info("Partion: {}", payload.partition());
-        log.info("Order: {}", payload.value());
+        log.info("Value: {}", payload.value());
     }
-
 }

@@ -1,6 +1,6 @@
 package com.popug.tasks.producer;
 
-import com.popug.tasks.dto.CreatedTask;
+import com.popug.tasks.kafkaMessages.CreatedTaskMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +15,9 @@ public class CreationProducer {
     @Value("create")
     private String topicName;
 
-    private final KafkaTemplate<String, CreatedTask> creationKafkaTemplate;
+    private final KafkaTemplate<String, CreatedTaskMessage> creationKafkaTemplate;
 
-    public void send(CreatedTask createdTask){
-        creationKafkaTemplate.send(topicName, createdTask);
+    public void send(CreatedTaskMessage message){
+        creationKafkaTemplate.send(topicName, message);
     }
-
 }

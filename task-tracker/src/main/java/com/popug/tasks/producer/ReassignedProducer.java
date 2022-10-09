@@ -1,6 +1,6 @@
 package com.popug.tasks.producer;
 
-import com.popug.tasks.dto.ReassignedTasks;
+import com.popug.tasks.kafkaMessages.AssignedTaskMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +15,9 @@ public class ReassignedProducer {
     @Value("reassign")
     private String topicName;
 
-    private final KafkaTemplate<String, ReassignedTasks> reassigningKafkaTemplate;
+    private final KafkaTemplate<String, AssignedTaskMessage> reassigningKafkaTemplate;
 
-    public void send(ReassignedTasks reassignedTasks){
-        reassigningKafkaTemplate.send(topicName, reassignedTasks);
+    public void send(AssignedTaskMessage message){
+        reassigningKafkaTemplate.send(topicName, message);
     }
-
 }

@@ -1,7 +1,7 @@
 package com.popug.tasks.config;
 
-import com.popug.tasks.dto.CreatedTask;
-import com.popug.tasks.dto.ReassignedTasks;
+import com.popug.tasks.kafkaMessages.AssignedTaskMessage;
+import com.popug.tasks.kafkaMessages.CreatedTaskMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class AppConfig {
 
     @Bean
-    public ProducerFactory<String, CreatedTask> creationProducerFactory() {
+    public ProducerFactory<String, CreatedTaskMessage> creationProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -26,12 +26,12 @@ public class AppConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, CreatedTask> creationKafkaTemplate() {
+    public KafkaTemplate<String, CreatedTaskMessage> creationKafkaTemplate() {
         return new KafkaTemplate<>(creationProducerFactory());
     }
 
     @Bean
-    public ProducerFactory<String, ReassignedTasks> reassigningProducerFactory() {
+    public ProducerFactory<String, AssignedTaskMessage> reassigningProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -40,7 +40,7 @@ public class AppConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, ReassignedTasks> reassigningKafkaTemplate() {
+    public KafkaTemplate<String, AssignedTaskMessage> reassigningKafkaTemplate() {
         return new KafkaTemplate<>(reassigningProducerFactory());
     }
 }
